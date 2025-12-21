@@ -1,0 +1,30 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+.hero-bg {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
+}
+.destination-card {
+    transition: transform 0.3s ease;
+}
+.destination-card:hover {
+    transform: translateY(-10px);
+}
+.calendar-container {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.date-cell:hover {
+    background-color: #e6f2ff;
+}
+.selected-date {
+    background-color: #0077b6 !important;
+    color: white !important;
+}
+.today {
+    border: 2px solid #0077b6;
+}
+.disabled-date {
+    color: #ccc;
+    cursor: not-allowed;
+}

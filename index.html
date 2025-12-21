@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Der Lg Travel Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0077b6',
+                        secondary: '#0094ff',
+                        accent: '#f4f6f8',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
+        }
+        .destination-card {
+            transition: transform 0.3s ease;
+        }
+        .destination-card:hover {
+            transform: translateY(-10px);
+        }
+        .calendar-container {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .date-cell:hover {
+            background-color: #e6f2ff;
+        }
+        .selected-date {
+            background-color: #0077b6 !important;
+            color: white !important;
+        }
+        .today {
+            border: 2px solid #0077b6;
+        }
+        .disabled-date {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        /* Fix for date input placeholder color */
+        input::placeholder {
+            color: #9ca3af;
+        }
+        input:focus::placeholder {
+            color: #d1d5db;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="text-2xl font-bold text-primary mr-2">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800">Der<span class="text-primary">Lg</span></h1>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-4 md:mb-0">
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-hotel mr-2"></i> Hotels
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-bus mr-2"></i> Transport
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-map-marked-alt mr-2"></i> Things to Do
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-tag mr-2"></i> Deals
+                    </a>
+                </nav>
+                
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-secondary font-medium hover:text-primary">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Sign In
+                    </a>
+                    <a href="#" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-800 transition duration-300">
+                        <i class="fas fa-user-plus mr-2"></i> Create Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Discover the World with Us</h1>
+                <p class="text-xl mb-10 text-gray-200">Find and book amazing travel experiences at the best prices</p>
+                
+                <!-- Search Box with Date Pickers -->
+                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-2xl">
+                    <!-- Destination Input (Editable) -->
+                    <div class="mb-6">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                            <label class="text-gray-700 font-medium">Destination</label>
+                        </div>
+                        <input type="text" 
+                               id="destination-input"
+                               placeholder="Where do you want to go?" 
+                               class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <!-- Check-in Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Check-in</label>
+                            </div>
+                            <input type="text" 
+                                   id="checkin-input"
+                                   placeholder="Select date" 
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="checkin-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="checkin-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="checkin-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="checkin-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="checkin-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="checkin-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="checkin-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Check-out Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-check text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Check-out</label>
+                            </div>
+                            <input type="text" 
+                                   id="checkout-input"
+                                   placeholder="Select date" 
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="checkout-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="checkout-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="checkout-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="checkout-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="checkout-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="checkout-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="checkout-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Travelers Input (Editable) -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-users text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Travelers</label>
+                            </div>
+                            <input type="text" 
+                                   id="travelers-input"
+                                   placeholder="1 Room, 2 Adults, 0 Children" 
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Search Destinations
+                    </button>
+                </div>
+                
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                    <span class="text-gray-300 mt-2">Popular searches:</span>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Beach Resorts</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Mountain Getaways</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">City Tours</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Top Destinations in Cambodia</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Explore the most beautiful places in Cambodia, from ancient temples to pristine islands</p>
+            </div>
+            
+            <!-- Destination Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <!-- Phnom Penh -->
+                <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://ucarecdn.com/77d53c3e-7964-48a1-9ce3-0085720b56d2/-/crop/4043x2122/0,265/-/resize/1200x630/" 
+                             alt="Phnom Penh" 
+                             class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white text-primary font-bold py-1 px-3 rounded-full">
+                            <i class="fas fa-star mr-1"></i> 4.8
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Phnom Penh</h3>
+                        <p class="text-gray-600 mb-4">The vibrant capital city with rich history and culture</p>
+                        <div class="flex justify-between items-center gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Accommodations</p>
+                                <p class="font-bold text-gray-800">2,044</p>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline">Explore <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Siem Reap -->
+                <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://i0.wp.com/thalias.com.kh/wp-content/uploads/2022/11/The-Best-of-Siem-Reap-at-your-Fingertips.jpeg?fit=1180%2C787&ssl=1" 
+                             alt="Siem Reap" 
+                             class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white text-primary font-bold py-1 px-3 rounded-full">
+                            <i class="fas fa-star mr-1"></i> 4.9
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Siem Reap</h3>
+                        <p class="text-gray-600 mb-4">Gateway to the magnificent Angkor Wat temple complex</p>
+                        <div class="flex justify-between items-center gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Accommodations</p>
+                                <p class="font-bold text-gray-800">3,279</p>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline">Explore <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Koh Rong -->
+                <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://customasiatravel.com/storage/photos/25/Blog/cambodia/koh-rong-private-island.webp" 
+                             alt="Koh Rong" 
+                             class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white text-primary font-bold py-1 px-3 rounded-full">
+                            <i class="fas fa-star mr-1"></i> 4.7
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Koh Rong</h3>
+                        <p class="text-gray-600 mb-4">Pristine island paradise with white sandy beaches</p>
+                        <div class="flex justify-between items-center gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Accommodations</p>
+                                <p class="font-bold text-gray-800">2,027</p>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline">Explore <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Koh Sdach Resort -->
+                <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://pix8.agoda.net/hotelImages/30125300/-1/b035d7f9fd2bacafb5a7d4834914115d.jpg?ce=0&s=1024x" 
+                             alt="Koh Sdach Resort" 
+                             class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white text-primary font-bold py-1 px-3 rounded-full">
+                            <i class="fas fa-star mr-1"></i> 4.5
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Koh Sdach Resort</h3>
+                        <p class="text-gray-600 mb-4">Exclusive island resort for a luxurious getaway</p>
+                        <div class="flex justify-between items-center gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Accommodations</p>
+                                <p class="font-bold text-gray-800">2,640</p>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline">Explore <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kirirom National Park -->
+                <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://www.techoairport.com.kh/tia-backend/locators/1754102693993-Picture2.png" 
+                             alt="Kirirom National Park" 
+                             class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 bg-white text-primary font-bold py-1 px-3 rounded-full">
+                            <i class="fas fa-star mr-1"></i> 4.6
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Kirirom National Park</h3>
+                        <p class="text-gray-600 mb-4">Pine forest mountain retreat with cool climate</p>
+                        <div class="flex justify-between items-center gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Accommodations</p>
+                                <p class="font-bold text-gray-800">1,592</p>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline">Explore <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- View All Button -->
+            <div class="text-center mt-12">
+                <a href="#" class="inline-flex items-center bg-white border border-primary text-primary hover:bg-primary hover:text-white font-bold py-3 px-8 rounded-xl transition duration-300">
+                    View All Destinations <i class="fas fa-chevron-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Choose DerLg?</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We make travel planning simple, affordable, and memorable</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Best Price Guarantee</h3>
+                    <p class="text-gray-600">We guarantee the lowest prices for all our travel packages. Find a lower price and we'll match it.</p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headset text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">24/7 Customer Support</h3>
+                    <p class="text-gray-600">Our travel experts are available around the clock to assist you with any questions or changes.</p>
+                </div>
+                
+                <div class="text-center p-6">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calendar-check text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Easy Cancellation</h3>
+                    <p class="text-gray-600">Flexible cancellation policies that allow you to change your plans with minimal fees.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="text-2xl font-bold text-white mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Der<span class="text-secondary">Lg</span></h2>
+                    </div>
+                    <p class="text-gray-400">Making travel accessible and enjoyable for everyone since 2023.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Destinations</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Southeast Asia</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Europe</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">North America</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Australia & NZ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Press</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Stay Updated</h3>
+                    <p class="text-gray-400 mb-4">Subscribe to our newsletter for the latest deals</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-grow p-3 rounded-l-lg text-gray-800 focus:outline-none">
+                        <button class="bg-primary hover:bg-blue-800 px-4 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 DerLg. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple hover effect for destination cards
+        document.querySelectorAll('.destination-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Date Picker functionality
+        class DatePicker {
+            constructor(inputId, calendarId) {
+                this.input = document.getElementById(inputId);
+                this.calendar = document.getElementById(calendarId);
+                this.monthYearElement = document.getElementById(calendarId.replace('calendar', 'month-year'));
+                this.datesContainer = document.getElementById(calendarId.replace('calendar', 'dates'));
+                this.prevBtn = document.getElementById(calendarId.replace('calendar', 'prev-month'));
+                this.nextBtn = document.getElementById(calendarId.replace('calendar', 'next-month'));
+                this.todayBtn = document.getElementById(calendarId.replace('calendar', 'today'));
+                this.clearBtn = document.getElementById(calendarId.replace('calendar', 'clear'));
+                
+                this.currentDate = new Date();
+                this.selectedDate = null;
+                
+                this.init();
+            }
+            
+            init() {
+                // Open calendar when input is clicked
+                this.input.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleCalendar();
+                });
+                
+                // Navigation buttons
+                this.prevBtn.addEventListener('click', () => this.changeMonth(-1));
+                this.nextBtn.addEventListener('click', () => this.changeMonth(1));
+                
+                // Today button
+                this.todayBtn.addEventListener('click', () => this.selectToday());
+                
+                // Clear button
+                this.clearBtn.addEventListener('click', () => this.clearSelection());
+                
+                // Close calendar when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!this.calendar.contains(e.target) && e.target !== this.input) {
+                        this.calendar.classList.add('hidden');
+                    }
+                });
+                
+                // Close on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.calendar.classList.add('hidden');
+                    }
+                });
+                
+                // Initialize calendar
+                this.renderCalendar();
+            }
+            
+            toggleCalendar() {
+                // Hide all other calendars first
+                document.querySelectorAll('.calendar-container').forEach(cal => {
+                    cal.classList.add('hidden');
+                });
+                
+                // Toggle this calendar
+                this.calendar.classList.toggle('hidden');
+                
+                // Update calendar view
+                this.renderCalendar();
+            }
+            
+            renderCalendar() {
+                const year = this.currentDate.getFullYear();
+                const month = this.currentDate.getMonth();
+                
+                // Update month/year display
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                                   "July", "August", "September", "October", "November", "December"];
+                this.monthYearElement.textContent = `${monthNames[month]} ${year}`;
+                
+                // Get first day of month and total days
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+                
+                // Clear previous dates
+                this.datesContainer.innerHTML = '';
+                
+                // Add empty cells for days before the first day of month
+                for (let i = 0; i < firstDay; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = 'h-10';
+                    this.datesContainer.appendChild(emptyCell);
+                }
+                
+                // Add date cells
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const date = new Date(year, month, day);
+                    const dateCell = document.createElement('div');
+                    dateCell.className = 'h-10 flex items-center justify-center rounded-lg date-cell cursor-pointer';
+                    
+                    // Check if this is today
+                    if (date.getDate() === today.getDate() && 
+                        date.getMonth() === today.getMonth() && 
+                        date.getFullYear() === today.getFullYear()) {
+                        dateCell.classList.add('today');
+                    }
+                    
+                    // Check if this is selected date
+                    if (this.selectedDate && 
+                        date.getDate() === this.selectedDate.getDate() && 
+                        date.getMonth() === this.selectedDate.getMonth() && 
+                        date.getFullYear() === this.selectedDate.getFullYear()) {
+                        dateCell.classList.add('selected-date', 'font-bold');
+                    } else {
+                        dateCell.classList.add('text-gray-800');
+                    }
+                    
+                    // Check if date is in the past (disable for check-in)
+                    if (this.input.id === 'checkin-input' && date < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                        dateCell.classList.add('disabled-date');
+                        dateCell.classList.remove('date-cell', 'cursor-pointer');
+                    }
+                    
+                    dateCell.textContent = day;
+                    dateCell.dataset.date = date.toISOString().split('T')[0];
+                    
+                    // Add click event
+                    dateCell.addEventListener('click', () => {
+                        if (!dateCell.classList.contains('disabled-date')) {
+                            this.selectDate(date);
+                        }
+                    });
+                    
+                    this.datesContainer.appendChild(dateCell);
+                }
+            }
+            
+            changeMonth(delta) {
+                this.currentDate.setMonth(this.currentDate.getMonth() + delta);
+                this.renderCalendar();
+            }
+            
+            selectDate(date) {
+                this.selectedDate = date;
+                
+                // Format date for display
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                this.input.value = date.toLocaleDateString('en-US', options);
+                
+                // Update calendar display
+                this.renderCalendar();
+                
+                // Auto-close calendar after selection
+                setTimeout(() => {
+                    this.calendar.classList.add('hidden');
+                }, 300);
+                
+                // Trigger validation if needed
+                if (this.input.id === 'checkin-input' && checkoutPicker.selectedDate) {
+                    if (checkoutPicker.selectedDate <= date) {
+                        checkoutPicker.clearSelection();
+                    }
+                }
+            }
+            
+            selectToday() {
+                const today = new Date();
+                this.selectDate(today);
+                this.currentDate = new Date(today); // Reset calendar view to today
+            }
+            
+            clearSelection() {
+                this.selectedDate = null;
+                this.input.value = '';
+                this.renderCalendar();
+            }
+        }
+        
+        // Initialize date pickers
+        const checkinPicker = new DatePicker('checkin-input', 'checkin-calendar');
+        const checkoutPicker = new DatePicker('checkout-input', 'checkout-calendar');
+        
+        // Get references to editable inputs
+        const destinationInput = document.getElementById('destination-input');
+        const travelersInput = document.getElementById('travelers-input');
+        
+        // Add event listeners to show typed text
+        destinationInput.addEventListener('input', function(e) {
+            // Text is automatically shown because it's a regular input
+            console.log('Destination:', this.value);
+        });
+        
+        travelersInput.addEventListener('input', function(e) {
+            // Text is automatically shown because it's a regular input
+            console.log('Travelers:', this.value);
+        });
+        
+        // Add event listener to search button
+        document.querySelector('button[class*="bg-primary"]').addEventListener('click', function() {
+            const destination = destinationInput.value;
+            const checkin = checkinPicker.input.value;
+            const checkout = checkoutPicker.input.value;
+            const travelers = travelersInput.value;
+            
+            if (!destination) {
+                alert('Please enter a destination');
+                destinationInput.focus();
+                return;
+            }
+            
+            if (!checkin) {
+                alert('Please select a check-in date');
+                checkinPicker.input.focus();
+                return;
+            }
+            
+            if (!checkout) {
+                alert('Please select a check-out date');
+                checkoutPicker.input.focus();
+                return;
+            }
+            
+            // Show search results (in a real app, this would redirect to search results)
+            alert(`Searching for:\nDestination: ${destination}\nCheck-in: ${checkin}\nCheck-out: ${checkout}\nTravelers: ${travelers}`);
+        });
+    </script>
+</body>
+</html>
