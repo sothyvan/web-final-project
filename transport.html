@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport - DerLg Travel Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="transport.css">
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="text-2xl font-bold text-primary mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-800">Der<span class="text-primary">Lg</span></h1>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-4 md:mb-0">
+                    <a href="index.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-hotel mr-2"></i> Hotels
+                    </a>
+                    <a href="transport.html" class="text-primary font-medium flex items-center border-b-2 border-primary pb-1">
+                        <i class="fas fa-bus mr-2"></i> Transport
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-map-marked-alt mr-2"></i> Things to Do
+                    </a>
+                    <a href="deal.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-tag mr-2"></i> Deals
+                    </a>
+                </nav>
+                
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-primary font-medium hover:text-blue-800">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Sign In
+                    </a>
+                    <a href="#" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-800 transition duration-300">
+                        <i class="fas fa-user-plus mr-2"></i> Create Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Transport Hero Section -->
+    <section class="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Find Your Perfect Transport</h1>
+                <p class="text-xl mb-8 text-blue-100">Book flights, trains, buses, and car rentals across Cambodia and beyond</p>
+                
+                <!-- Transport Type Tabs -->
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <button id="tab-flight" class="transport-tab active bg-white text-blue-700 px-6 py-3 rounded-xl font-bold text-lg flex items-center">
+                        <i class="fas fa-plane mr-2"></i> Flights
+                    </button>
+                    <button id="tab-train" class="transport-tab bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl font-bold text-lg flex items-center">
+                        <i class="fas fa-train mr-2"></i> Trains
+                    </button>
+                    <button id="tab-bus" class="transport-tab bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl font-bold text-lg flex items-center">
+                        <i class="fas fa-bus mr-2"></i> Buses
+                    </button>
+                    <button id="tab-car" class="transport-tab bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl font-bold text-lg flex items-center">
+                        <i class="fas fa-car mr-2"></i> Car Rentals
+                    </button>
+                </div>
+                
+                <!-- Flight Search Form (Default) -->
+                <div id="flight-form" class="transport-form bg-white rounded-2xl p-6 md:p-8 shadow-2xl max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                        <!-- From -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-plane-departure text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">From</label>
+                            </div>
+                            <input type="text" 
+                                   id="flight-from"
+                                   placeholder="City or airport"
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- To -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-plane-arrival text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">To</label>
+                            </div>
+                            <input type="text" 
+                                   id="flight-to"
+                                   placeholder="City or airport"
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- Departure Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Departure</label>
+                            </div>
+                            <input type="text" 
+                                   id="flight-departure-input"
+                                   placeholder="Select date"
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="flight-departure-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="flight-departure-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="flight-departure-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="flight-departure-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="flight-departure-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="flight-departure-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="flight-departure-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Travelers -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-users text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Travelers</label>
+                            </div>
+                            <select class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                                <option>1 Adult</option>
+                                <option>2 Adults</option>
+                                <option>3 Adults</option>
+                                <option>4 Adults</option>
+                                <option>1 Adult, 1 Child</option>
+                                <option>2 Adults, 1 Child</option>
+                                <option>2 Adults, 2 Children</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 mb-6">
+                        <!-- Trip Type -->
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center">
+                                <input type="radio" id="one-way" name="trip-type" class="mr-2" checked>
+                                <label for="one-way" class="text-gray-700">One-way</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="round-trip" name="trip-type" class="mr-2">
+                                <label for="round-trip" class="text-gray-700">Round trip</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="multi-city" name="trip-type" class="mr-2">
+                                <label for="multi-city" class="text-gray-700">Multi-city</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Cabin Class -->
+                        <div class="ml-auto">
+                            <select class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                                <option>Economy Class</option>
+                                <option>Premium Economy</option>
+                                <option>Business Class</option>
+                                <option>First Class</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button id="flight-search-btn" class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Search Flights
+                    </button>
+                </div>
+                
+                <!-- Train Search Form (Hidden) -->
+                <div id="train-form" class="transport-form hidden bg-white rounded-2xl p-6 md:p-8 shadow-2xl max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <!-- From -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">From</label>
+                            </div>
+                            <input type="text" 
+                                   id="train-from"
+                                   placeholder="City or station"
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- To -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">To</label>
+                            </div>
+                            <input type="text" 
+                                   id="train-to"
+                                   placeholder="City or station"
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- Departure Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Departure</label>
+                            </div>
+                            <input type="text" 
+                                   id="train-departure-input"
+                                   placeholder="Select date"
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="train-departure-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="train-departure-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="train-departure-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="train-departure-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="train-departure-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="train-departure-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="train-departure-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="train-search-btn" class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Search Trains
+                    </button>
+                </div>
+                
+                <!-- Bus Search Form (Hidden) -->
+                <div id="bus-form" class="transport-form hidden bg-white rounded-2xl p-6 md:p-8 shadow-2xl max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <!-- From -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">From</label>
+                            </div>
+                            <input type="text" 
+                                   id="bus-from"
+                                   placeholder="City or bus station"
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- To -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">To</label>
+                            </div>
+                            <input type="text" 
+                                   id="bus-to"
+                                   placeholder="City or bus station"
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- Departure Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Departure</label>
+                            </div>
+                            <input type="text" 
+                                   id="bus-departure-input"
+                                   placeholder="Select date"
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="bus-departure-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="bus-departure-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="bus-departure-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="bus-departure-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="bus-departure-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="bus-departure-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="bus-departure-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="bus-search-btn" class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Search Buses
+                    </button>
+                </div>
+                
+                <!-- Car Rental Form (Hidden) -->
+                <div id="car-form" class="transport-form hidden bg-white rounded-2xl p-6 md:p-8 shadow-2xl max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                        <!-- Pick-up Location -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Pick-up Location</label>
+                            </div>
+                            <input type="text" 
+                                   id="car-pickup-location"
+                                   placeholder="City, airport or address"
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- Drop-off Location -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Drop-off Location</label>
+                            </div>
+                            <input type="text" 
+                                   id="car-dropoff-location"
+                                   placeholder="Same as pick-up"
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- Pick-up Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Pick-up Date</label>
+                            </div>
+                            <input type="text" 
+                                   id="car-pickup-input"
+                                   placeholder="Select date"
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="car-pickup-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="car-pickup-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="car-pickup-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="car-pickup-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="car-pickup-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="car-pickup-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="car-pickup-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Drop-off Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-check text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Drop-off Date</label>
+                            </div>
+                            <input type="text" 
+                                   id="car-dropoff-input"
+                                   placeholder="Select date"
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="car-dropoff-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="car-dropoff-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="car-dropoff-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="car-dropoff-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="car-dropoff-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="car-dropoff-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="car-dropoff-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="same-location" class="mr-2" checked>
+                                <label for="same-location" class="text-gray-700">Return to same location</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Driver Age -->
+                        <div>
+                            <select class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                                <option>Driver age: 25+</option>
+                                <option>Driver age: 21-24</option>
+                                <option>Driver age: 18-20</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button id="car-search-btn" class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Search Cars
+                    </button>
+                </div>
+                
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                    <span class="text-blue-200">Popular routes:</span>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Phnom Penh → Siem Reap</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Siem Reap → Sihanoukville</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Bangkok → Phnom Penh</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Transport Options -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Featured Flights -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Featured Flights</h2>
+                <a href="#" class="text-primary font-medium hover:underline">
+                    View all flights <i class="fas fa-chevron-right ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Flight Card 1 -->
+                <div class="transport-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <div class="price-badge">SAVE 25%</div>
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Bangkok Airways" 
+                             class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-800">Bangkok → Siem Reap</h3>
+                                <p class="text-gray-600">Direct • 1h 15m</p>
+                            </div>
+                            <span class="transport-tag bg-blue-100 text-blue-800">Bangkok Airways</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-gray-800">07:30</p>
+                                <p class="text-sm text-gray-600">BKK</p>
+                            </div>
+                            <div class="flex-1 px-4">
+                                <div class="flex items-center justify-center">
+                                    <div class="w-full border-t border-dashed border-gray-300"></div>
+                                    <i class="fas fa-plane text-primary mx-2"></i>
+                                    <div class="w-full border-t border-dashed border-gray-300"></div>
+                                </div>
+                                <p class="text-center text-sm text-gray-600 mt-1">1h 15m</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-gray-800">08:45</p>
+                                <p class="text-sm text-gray-600">REP</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$89</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">Economy • Round trip from $158</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                                Select
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flight Card 2 -->
+                <div class="transport-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Cambodia Angkor Air" 
+                             class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-800">Phnom Penh → Sihanoukville</h3>
+                                <p class="text-gray-600">Direct • 45m</p>
+                            </div>
+                            <span class="transport-tag bg-green-100 text-green-800">Cambodia Angkor Air</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-gray-800">14:20</p>
+                                <p class="text-sm text-gray-600">PNH</p>
+                            </div>
+                            <div class="flex-1 px-4">
+                                <div class="flex items-center justify-center">
+                                    <div class="w-full border-t border-dashed border-gray-300"></div>
+                                    <i class="fas fa-plane text-primary mx-2"></i>
+                                    <div class="w-full border-t border-dashed border-gray-300"></div>
+                                </div>
+                                <p class="text-center text-sm text-gray-600 mt-1">45m</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-gray-800">15:05</p>
+                                <p class="text-sm text-gray-600">KOS</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$65</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">Economy • Free 15kg baggage</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                                Select
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flight Card 3 -->
+                <div class="transport-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <div class="price-badge">DEAL</div>
+                        <img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Singapore Airlines" 
+                             class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-800">Singapore → Phnom Penh</h3>
+                                <p class="text-gray-600">Direct • 2h 10m</p>
+                            </div>
+                            <span class="transport-tag bg-purple-100 text-purple-800">Singapore Airlines</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-gray-800">11:15</p>
+                                <p class="text-sm text-gray-600">SIN</p>
+                            </div>
+                            <div class="flex-1 px-4">
+                                <div class="flex items-center justify-center">
+                                    <div class="w-full border-t border-dashed border-gray-300"></div>
+                                    <i class="fas fa-plane text-primary mx-2"></i>
+                                    <div class="w-full border-t border-dashed border-gray-300"></div>
+                                </div>
+                                <p class="text-center text-sm text-gray-600 mt-1">2h 10m</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-2xl font-bold text-gray-800">13:25</p>
+                                <p class="text-sm text-gray-600">PNH</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$145</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <p class="text-gray-600 text-sm">Economy • Meal included</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                                Select
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Train & Bus Services -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Train & Bus Services</h2>
+                <a href="#" class="text-primary font-medium hover:underline">
+                    View all ground transport <i class="fas fa-chevron-right ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Train Services -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-train text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Train Services in Cambodia</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-blue-50 cursor-pointer">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Phnom Penh → Sihanoukville</h4>
+                                <p class="text-gray-600">6h • Scenic coastal route</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-gray-800">From $15</p>
+                                <p class="text-sm text-gray-600">2 departures daily</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-blue-50 cursor-pointer">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Phnom Penh → Poipet (Thai Border)</h4>
+                                <p class="text-gray-600">8h • International connection</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-gray-800">From $25</p>
+                                <p class="text-sm text-gray-600">1 departure daily</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-blue-50 cursor-pointer">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Battambang → Phnom Penh</h4>
+                                <p class="text-gray-600">5h • Rural landscape views</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-gray-800">From $12</p>
+                                <p class="text-sm text-gray-600">3 departures daily</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full mt-6 bg-blue-600 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Search All Trains
+                    </button>
+                </div>
+                
+                <!-- Bus Services -->
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-bus text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Bus Services</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-green-50 cursor-pointer">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Phnom Penh → Siem Reap</h4>
+                                <p class="text-gray-600">5-6h • VIP buses available</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-gray-800">From $8</p>
+                                <span class="transport-tag bg-green-100 text-green-800">Giant Ibis</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-green-50 cursor-pointer">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Siem Reap → Sihanoukville</h4>
+                                <p class="text-gray-600">10-12h • Overnight options</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-gray-800">From $15</p>
+                                <span class="transport-tag bg-blue-100 text-blue-800">Virak Buntham</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-green-50 cursor-pointer">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Bangkok → Phnom Penh</h4>
+                                <p class="text-gray-600">8-9h • International service</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-gray-800">From $25</p>
+                                <span class="transport-tag bg-purple-100 text-purple-800">Nattakan</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full mt-6 bg-green-600 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Search All Buses
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Car Rentals -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Car Rentals</h2>
+                <a href="#" class="text-primary font-medium hover:underline">
+                    View all cars <i class="fas fa-chevron-right ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Car 1 -->
+                <div class="transport-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Toyota Camry" 
+                             class="w-full h-40 object-cover">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Toyota Camry</h3>
+                        <p class="text-gray-600 text-sm mb-4">Sedan • Automatic • 5 seats</p>
+                        <div class="flex items-center text-sm text-gray-600 mb-4">
+                            <i class="fas fa-gas-pump mr-2"></i>
+                            <span class="mr-4">Unlimited mileage</span>
+                            <i class="fas fa-snowflake mr-2"></i>
+                            <span>A/C</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-2xl font-bold text-gray-800">$38</p>
+                                <p class="text-gray-600 text-sm">/day</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                                Book
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car 2 -->
+                <div class="transport-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <div class="price-badge">POPULAR</div>
+                        <img src="https://images.unsplash.com/photo-1563720223488-8f2f62a6e71a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Honda CR-V" 
+                             class="w-full h-40 object-cover">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Honda CR-V</h3>
+                        <p class="text-gray-600 text-sm mb-4">SUV • Automatic • 5 seats</p>
+                        <div class="flex items-center text-sm text-gray-600 mb-4">
+                            <i class="fas fa-gas-pump mr-2"></i>
+                            <span class="mr-4">Unlimited mileage</span>
+                            <i class="fas fa-snowflake mr-2"></i>
+                            <span>A/C</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-2xl font-bold text-gray-800">$52</p>
+                                <p class="text-gray-600 text-sm">/day</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                                Book
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car 3 -->
+                <div class="transport-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Scooter" 
+                             class="w-full h-40 object-cover">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Scooter Rental</h3>
+                        <p class="text-gray-600 text-sm mb-4">Automatic • Helmet included</p>
+                        <div class="flex items-center text-sm text-gray-600 mb-4">
+                            <i class="fas fa-gas-pump mr-2"></i>
+                            <span class="mr-4">Fuel not included</span>
+                            <i class="fas fa-shield-alt mr-2"></i>
+                            <span>Insurance</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-2xl font-bold text-gray-800">$12</p>
+                                <p class="text-gray-600 text-sm">/day</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                                Book
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car 4 -->
+                <div class="transport-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Minivan" 
+                             class="w-full h-40 object-cover">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Toyota Hiace</h3>
+                        <p class="text-gray-600 text-sm mb-4">Minivan • Manual • 12 seats</p>
+                        <div class="flex items-center text-sm text-gray-600 mb-4">
+                            <i class="fas fa-gas-pump mr-2"></i>
+                            <span class="mr-4">Unlimited mileage</span>
+                            <i class="fas fa-snowflake mr-2"></i>
+                            <span>A/C</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-2xl font-bold text-gray-800">$68</p>
+                                <p class="text-gray-600 text-sm">/day</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                                Book
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Transport Features -->
+        <section class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-8 mb-12">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Book Transport with DerLg?</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">We offer the best prices and most convenient options for all your travel needs in Cambodia and Southeast Asia</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-shield-alt text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Secure Booking</h3>
+                    <p class="text-gray-600">Your bookings are protected with our secure payment system and 24/7 customer support.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-tags text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Best Price Guarantee</h3>
+                    <p class="text-gray-600">Find a lower price for the same transport option and we'll match it or refund the difference.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-headset text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Multilingual Support</h3>
+                    <p class="text-gray-600">Get assistance in English, Khmer, Thai, and Chinese from our travel experts.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Travel Tips -->
+        <section class="bg-white rounded-2xl p-8 shadow-lg">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Travel Tips for Cambodia</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-3 text-xl">Domestic Travel</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Book flights at least 2 weeks in advance for best prices</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>VIP buses offer more comfort for long journeys</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Consider travel time when choosing between flight and bus</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Check visa requirements for international connections</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-3 text-xl">International Connections</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Arrive at airports 3 hours before international flights</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Check baggage allowances for different airlines</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Consider travel insurance for international trips</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                            <span>Bring printed copies of booking confirmations</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="text-2xl font-bold text-white mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Der<span class="text-secondary">Lg</span></h2>
+                    </div>
+                    <p class="text-gray-400">Making travel accessible and enjoyable for everyone since 2025.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Transport</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Flights</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Trains</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Buses</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Car Rentals</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Support</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Booking Changes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cancellation Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Travel Alerts</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Stay Updated</h3>
+                    <p class="text-gray-400 mb-4">Subscribe for travel deals & tips</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-grow p-3 rounded-l-lg text-gray-800 focus:outline-none">
+                        <button class="bg-primary hover:bg-blue-800 px-4 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 DerLg. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+    <script src="transport.js"></script>
+</body>
+</html>

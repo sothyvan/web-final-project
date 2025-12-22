@@ -1,0 +1,51 @@
+.calendar-container {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.date-cell:hover {
+    background-color: #e6f2ff;
+}
+.selected-date {
+    background-color: oklch(54.6% 0.245 262.881);
+    color: white;
+}
+.today {
+    border: 2px solid oklch(54.6% 0.245 262.881);
+}
+.disabled-date {
+    opacity: 0.4;
+    cursor: not-allowed !important;
+}
+.transport-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.transport-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+.price-badge {
+    position: absolute;
+    top: 15px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 0.875rem;
+    z-index: 10;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 10% 50%);
+}
+.price-badge::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    border-top: 5px solid #c53030;
+    border-left: 5px solid transparent;
+}
+.transport-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
