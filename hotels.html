@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotels - DerLg Travel Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="hotels.css">
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="text-2xl font-bold text-primary mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-800">Der<span class="text-primary">Lg</span></h1>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-4 md:mb-0">
+                    <a href="index.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </a>
+                    <a href="hotels.html" class="text-primary font-medium flex items-center border-b-2 border-primary pb-1">
+                        <i class="fas fa-hotel mr-2"></i> Hotels
+                    </a>
+                    <a href="transport.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-bus mr-2"></i> Transport
+                    </a>
+                    <a href="thing.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-map-marked-alt mr-2"></i> Things to Do
+                    </a>
+                    <a href="deal.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-tag mr-2"></i> Deals
+                    </a>
+                </nav>
+                
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-primary font-medium hover:text-blue-800">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Sign In
+                    </a>
+                    <a href="#" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-800 transition duration-300">
+                        <i class="fas fa-user-plus mr-2"></i> Create Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hotels Hero Section -->
+    <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Find Your Perfect Hotel</h1>
+                <p class="text-xl mb-8 text-blue-100">Compare prices, reviews, and amenities across thousands of hotels</p>
+                
+                <!-- Hotel Search Bar with Date Pickers -->
+                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-2xl max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                        <!-- Destination Input -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Destination</label>
+                            </div>
+                            <input type="text" 
+                                   id="hotel-destination-input"
+                                   placeholder="City, region, or hotel name" 
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- Check-in Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Check-in</label>
+                            </div>
+                            <input type="text" 
+                                   id="hotel-checkin-input"
+                                   placeholder="Select date" 
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="hotel-checkin-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="hotel-checkin-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="hotel-checkin-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="hotel-checkin-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="hotel-checkin-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="hotel-checkin-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="hotel-checkin-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Check-out Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-check text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Check-out</label>
+                            </div>
+                            <input type="text" 
+                                   id="hotel-checkout-input"
+                                   placeholder="Select date" 
+                                   readonly
+                                   class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="hotel-checkout-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="hotel-checkout-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="hotel-checkout-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="hotel-checkout-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="hotel-checkout-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="hotel-checkout-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="hotel-checkout-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Guests -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-users text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Guests & Rooms</label>
+                            </div>
+                            <select id="hotel-guests-select" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                                <option>1 Room, 2 Adults</option>
+                                <option>1 Room, 1 Adult</option>
+                                <option>1 Room, 3 Adults</option>
+                                <option>1 Room, 4 Adults</option>
+                                <option>2 Rooms, 4 Adults</option>
+                                <option>2 Rooms, 2 Adults, 2 Children</option>
+                                <option>3 Rooms, 6 Adults</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button id="hotel-search-btn" class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Search Hotels
+                    </button>
+                </div>
+                
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                    <span class="text-blue-200">Popular destinations:</span>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Phnom Penh</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Siem Reap</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Sihanoukville</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Koh Rong</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Hotels Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Filters Sidebar -->
+            <div class="lg:w-1/4">
+                <div class="bg-white rounded-2xl p-6 shadow-lg mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Filter by</h3>
+                    
+                    <!-- Price Range -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-700 mb-3">Price Range (per night)</h4>
+                        <input type="range" min="10" max="500" value="150" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" id="price-range">
+                        <div class="flex justify-between mt-2">
+                            <span class="text-gray-600">$10</span>
+                            <span class="font-bold text-primary" id="price-value">$150</span>
+                            <span class="text-gray-600">$500+</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Star Rating -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-700 mb-3">Star Rating</h4>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="rating-5" class="mr-3 rounded">
+                                <label for="rating-5" class="text-gray-700">
+                                    <span class="text-yellow-500">★★★★★</span> 5 Stars
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="rating-4" class="mr-3 rounded" checked>
+                                <label for="rating-4" class="text-gray-700">
+                                    <span class="text-yellow-500">★★★★☆</span> 4 Stars & above
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="rating-3" class="mr-3 rounded">
+                                <label for="rating-3" class="text-gray-700">
+                                    <span class="text-yellow-500">★★★☆☆</span> 3 Stars & above
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="rating-2" class="mr-3 rounded">
+                                <label for="rating-2" class="text-gray-700">
+                                    <span class="text-yellow-500">★★☆☆☆</span> 2 Stars & above
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Amenities -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-700 mb-3">Amenities</h4>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="wifi" class="mr-3 rounded" checked>
+                                <label for="wifi" class="text-gray-700">Free WiFi</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="pool" class="mr-3 rounded" checked>
+                                <label for="pool" class="text-gray-700">Swimming Pool</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="parking" class="mr-3 rounded">
+                                <label for="parking" class="text-gray-700">Free Parking</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="breakfast" class="mr-3 rounded">
+                                <label for="breakfast" class="text-gray-700">Free Breakfast</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="spa" class="mr-3 rounded">
+                                <label for="spa" class="text-gray-700">Spa</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Property Type -->
+                    <div class="mb-6">
+                        <h4 class="font-bold text-gray-700 mb-3">Property Type</h4>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="hotels" class="mr-3 rounded" checked>
+                                <label for="hotels" class="text-gray-700">Hotels</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="resorts" class="mr-3 rounded" checked>
+                                <label for="resorts" class="text-gray-700">Resorts</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="villas" class="mr-3 rounded">
+                                <label for="villas" class="text-gray-700">Villas</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="guesthouses" class="mr-3 rounded">
+                                <label for="guesthouses" class="text-gray-700">Guest Houses</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300">
+                        Apply Filters
+                    </button>
+                </div>
+                
+                <!-- Special Offers -->
+                <div class="bg-gradient-to-r from-green-500 to-green-700 rounded-2xl p-6 text-white">
+                    <h3 class="text-xl font-bold mb-3">Special Offers</h3>
+                    <p class="text-green-100 mb-4">Get 15% off when you book 3 nights or more!</p>
+                    <button class="w-full bg-white text-green-700 hover:bg-green-100 font-bold py-3 px-6 rounded-xl transition duration-300">
+                        View Offers
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Hotels Listings -->
+            <div class="lg:w-3/4">
+                <!-- Results Header -->
+                <div class="flex flex-wrap justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Hotels in Cambodia</h2>
+                        <p class="text-gray-600">Showing 24 hotels for your search</p>
+                    </div>
+                    <div class="flex items-center mt-4 md:mt-0">
+                        <span class="text-gray-600 mr-3">Sort by:</span>
+                        <select id="hotel-sort-select" class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option>Recommended</option>
+                            <option>Price (Low to High)</option>
+                            <option>Price (High to Low)</option>
+                            <option>Guest Rating</option>
+                            <option>Star Rating</option>
+                            <option>Distance from center</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Quick Filter Buttons -->
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <button class="filter-btn active px-5 py-2 rounded-full border border-primary text-white font-medium bg-primary">
+                        All Hotels
+                    </button>
+                    <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                        <i class="fas fa-wifi mr-2"></i> Free WiFi
+                    </button>
+                    <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                        <i class="fas fa-swimming-pool mr-2"></i> Pool
+                    </button>
+                    <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                        <i class="fas fa-utensils mr-2"></i> Breakfast Included
+                    </button>
+                    <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                        <i class="fas fa-spa mr-2"></i> Spa
+                    </button>
+                </div>
+                
+                <!-- Hotels Grid -->
+                <div class="space-y-6">
+                    <!-- Hotel 1 -->
+                    <div class="hotel-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="md:w-1/3 relative">
+                                <div class="hotel-badge">BEST VALUE</div>
+                                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     alt="Raffles Hotel Le Royal" 
+                                     class="w-full h-64 md:h-full object-cover">
+                            </div>
+                            <div class="md:w-2/3 p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-1">Raffles Hotel Le Royal</h3>
+                                        <div class="flex items-center text-gray-600 mb-2">
+                                            <i class="fas fa-map-marker-alt mr-2"></i>
+                                            <span>Phnom Penh City Center, Phnom Penh</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="hotel-rating mr-2">9.2</span>
+                                            <span class="text-yellow-500">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                            <span class="text-gray-600 text-sm ml-2">(1,243 reviews)</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-2xl font-bold text-gray-800">$189</div>
+                                        <div class="text-gray-600 text-sm">per night</div>
+                                        <div class="flex items-center justify-end mt-1">
+                                            <span class="price-slash text-gray-500 text-sm mr-2">$329</span>
+                                            <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 42%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <span class="hotel-tag bg-blue-100 text-blue-800">
+                                            <i class="fas fa-wifi mr-1"></i> Free WiFi
+                                        </span>
+                                        <span class="hotel-tag bg-green-100 text-green-800">
+                                            <i class="fas fa-swimming-pool mr-1"></i> Pool
+                                        </span>
+                                        <span class="hotel-tag bg-purple-100 text-purple-800">
+                                            <i class="fas fa-utensils mr-1"></i> 3 Restaurants
+                                        </span>
+                                        <span class="hotel-tag bg-yellow-100 text-yellow-800">
+                                            <i class="fas fa-spa mr-1"></i> Spa
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600">Luxurious 5-star hotel with colonial architecture, located in the heart of Phnom Penh. Features an outdoor pool, spa, and multiple dining options.</p>
+                                </div>
+                                
+                                <div class="flex justify-between items-center pt-4 border-t">
+                                    <div>
+                                        <div class="flex items-center text-green-700">
+                                            <i class="fas fa-check-circle mr-2"></i>
+                                            <span class="font-medium">Free cancellation</span>
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-1">No prepayment needed • Pay at the property</p>
+                                    </div>
+                                    <button class="view-deal-btn bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300">
+                                        View Deal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hotel 2 -->
+                    <div class="hotel-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="md:w-1/3 relative">
+                                <div class="hotel-badge" style="background-color: #10b981;">POPULAR</div>
+                                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     alt="Sokha Siem Reap Resort" 
+                                     class="w-full h-64 md:h-full object-cover">
+                            </div>
+                            <div class="md:w-2/3 p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-1">Sokha Siem Reap Resort</h3>
+                                        <div class="flex items-center text-gray-600 mb-2">
+                                            <i class="fas fa-map-marker-alt mr-2"></i>
+                                            <span>City Center, Siem Reap</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="hotel-rating mr-2">8.9</span>
+                                            <span class="text-yellow-500">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </span>
+                                            <span class="text-gray-600 text-sm ml-2">(2,134 reviews)</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-2xl font-bold text-gray-800">$112</div>
+                                        <div class="text-gray-600 text-sm">per night</div>
+                                        <div class="flex items-center justify-end mt-1">
+                                            <span class="price-slash text-gray-500 text-sm mr-2">$165</span>
+                                            <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 32%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <span class="hotel-tag bg-blue-100 text-blue-800">
+                                            <i class="fas fa-wifi mr-1"></i> Free WiFi
+                                        </span>
+                                        <span class="hotel-tag bg-green-100 text-green-800">
+                                            <i class="fas fa-swimming-pool mr-1"></i> 2 Pools
+                                        </span>
+                                        <span class="hotel-tag bg-purple-100 text-purple-800">
+                                            <i class="fas fa-utensils mr-1"></i> Breakfast Included
+                                        </span>
+                                        <span class="hotel-tag bg-yellow-100 text-yellow-800">
+                                            <i class="fas fa-dumbbell mr-1"></i> Fitness Center
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600">5-star resort located just 10 minutes from Angkor Wat. Features Khmer-inspired architecture, multiple pools, and a spa.</p>
+                                </div>
+                                
+                                <div class="flex justify-between items-center pt-4 border-t">
+                                    <div>
+                                        <div class="flex items-center text-green-700">
+                                            <i class="fas fa-check-circle mr-2"></i>
+                                            <span class="font-medium">Free cancellation</span>
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-1">No prepayment needed • Pay at the property</p>
+                                    </div>
+                                    <button class="view-deal-btn bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300">
+                                        View Deal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hotel 3 -->
+                    <div class="hotel-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="md:w-1/3 relative">
+                                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     alt="Song Saa Private Island" 
+                                     class="w-full h-64 md:h-full object-cover">
+                            </div>
+                            <div class="md:w-2/3 p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-1">Song Saa Private Island</h3>
+                                        <div class="flex items-center text-gray-600 mb-2">
+                                            <i class="fas fa-map-marker-alt mr-2"></i>
+                                            <span>Koh Rong Archipelago, Sihanoukville</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="hotel-rating mr-2">9.8</span>
+                                            <span class="text-yellow-500">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                            <span class="text-gray-600 text-sm ml-2">(743 reviews)</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-2xl font-bold text-gray-800">$899</div>
+                                        <div class="text-gray-600 text-sm">per night</div>
+                                        <div class="text-green-700 text-sm font-medium mt-1">All Inclusive</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <span class="hotel-tag bg-blue-100 text-blue-800">
+                                            <i class="fas fa-water mr-1"></i> Overwater Villa
+                                        </span>
+                                        <span class="hotel-tag bg-green-100 text-green-800">
+                                            <i class="fas fa-utensils mr-1"></i> All Inclusive
+                                        </span>
+                                        <span class="hotel-tag bg-purple-100 text-purple-800">
+                                            <i class="fas fa-spa mr-1"></i> Luxury Spa
+                                        </span>
+                                        <span class="hotel-tag bg-yellow-100 text-yellow-800">
+                                            <i class="fas fa-snorkeling mr-1"></i> Snorkeling
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600">Ultra-luxury private island resort with overwater and rainforest villas. All-inclusive package covers meals, drinks, and activities.</p>
+                                </div>
+                                
+                                <div class="flex justify-between items-center pt-4 border-t">
+                                    <div>
+                                        <div class="flex items-center text-green-700">
+                                            <i class="fas fa-check-circle mr-2"></i>
+                                            <span class="font-medium">Free cancellation</span>
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-1">All-inclusive • Private transfer included</p>
+                                    </div>
+                                    <button class="view-deal-btn bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300">
+                                        View Deal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hotel 4 -->
+                    <div class="hotel-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="md:w-1/3 relative">
+                                <div class="hotel-badge" style="background-color: #f59e0b;">DEAL</div>
+                                <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                     alt="Courtyard by Marriott" 
+                                     class="w-full h-64 md:h-full object-cover">
+                            </div>
+                            <div class="md:w-2/3 p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-1">Courtyard by Marriott Phnom Penh</h3>
+                                        <div class="flex items-center text-gray-600 mb-2">
+                                            <i class="fas fa-map-marker-alt mr-2"></i>
+                                            <span>Tonle Bassac, Phnom Penh</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="hotel-rating mr-2">8.7</span>
+                                            <span class="text-yellow-500">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                            <span class="text-gray-600 text-sm ml-2">(892 reviews)</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-2xl font-bold text-gray-800">$79</div>
+                                        <div class="text-gray-600 text-sm">per night</div>
+                                        <div class="flex items-center justify-end mt-1">
+                                            <span class="price-slash text-gray-500 text-sm mr-2">$125</span>
+                                            <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 37%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <span class="hotel-tag bg-blue-100 text-blue-800">
+                                            <i class="fas fa-wifi mr-1"></i> Free WiFi
+                                        </span>
+                                        <span class="hotel-tag bg-green-100 text-green-800">
+                                            <i class="fas fa-dumbbell mr-1"></i> Fitness Center
+                                        </span>
+                                        <span class="hotel-tag bg-purple-100 text-purple-800">
+                                            <i class="fas fa-utensils mr-1"></i> Restaurant
+                                        </span>
+                                        <span class="hotel-tag bg-yellow-100 text-yellow-800">
+                                            <i class="fas fa-concierge-bell mr-1"></i> 24/7 Front Desk
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600">Modern 4-star hotel in the heart of Phnom Penh's business district. Walking distance to major attractions and shopping centers.</p>
+                                </div>
+                                
+                                <div class="flex justify-between items-center pt-4 border-t">
+                                    <div>
+                                        <div class="flex items-center text-green-700">
+                                            <i class="fas fa-check-circle mr-2"></i>
+                                            <span class="font-medium">Free cancellation</span>
+                                        </div>
+                                        <p class="text-gray-600 text-sm mt-1">No prepayment needed • Marriott Bonvoy points</p>
+                                    </div>
+                                    <button class="view-deal-btn bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300">
+                                        View Deal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="flex justify-center mt-12">
+                    <nav class="flex items-center space-x-2">
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold">1</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">2</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">3</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">4</button>
+                        <span class="text-gray-500">...</span>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">10</button>
+                        <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="text-2xl font-bold text-white mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Der<span class="text-secondary">Lg</span></h2>
+                    </div>
+                    <p class="text-gray-400">Making travel accessible and enjoyable for everyone since 2025.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Hotels</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Phnom Penh Hotels</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Siem Reap Hotels</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Beach Resorts</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Luxury Hotels</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Support</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cancellation Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Hotel FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Stay Updated</h3>
+                    <p class="text-gray-400 mb-4">Subscribe for hotel deals & offers</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-grow p-3 rounded-l-lg text-gray-800 focus:outline-none">
+                        <button class="bg-primary hover:bg-blue-800 px-4 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <p class="text-gray-400 text-sm mt-4">
+                        <i class="fas fa-shield-alt mr-2"></i> We never share your email with third parties
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 DerLg. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="hotels.js"></script>
+</body>
+</html>
