@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Things to Do - DerLg Travel Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="thing.css">
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Header - Consistent with main page -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="text-2xl font-bold text-primary mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-800">Der<span class="text-primary">Lg</span></h1>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-4 md:mb-0">
+                    <a href="index.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </a>
+                    <a href="index.html#hotels" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-hotel mr-2"></i> Hotels
+                    </a>
+                    <a href="transport.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-bus mr-2"></i> Transport
+                    </a>
+                    <a href="things-to-do.html" class="text-primary font-medium flex items-center border-b-2 border-primary pb-1">
+                        <i class="fas fa-map-marked-alt mr-2"></i> Things to Do
+                    </a>
+                    <a href="deal.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-tag mr-2"></i> Deals
+                    </a>
+                </nav>
+                
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-primary font-medium hover:text-blue-800">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Sign In
+                    </a>
+                    <a href="#" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-800 transition duration-300">
+                        <i class="fas fa-user-plus mr-2"></i> Create Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Things to Do Hero Section -->
+    <section class="bg-gradient-to-r from-green-600 to-green-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Discover Amazing Experiences</h1>
+                <p class="text-xl mb-8 text-green-100">Book tours, attractions, and activities in Cambodia's top destinations</p>
+                
+                <!-- Search Bar with Date Picker -->
+                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-2xl max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <!-- Destination Input -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Destination</label>
+                            </div>
+                            <input type="text" 
+                                    id="activity-destination-input"
+                                    placeholder="Where do you want to explore?" 
+                                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- Activity Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Activity Date</label>
+                            </div>
+                            <input type="text" 
+                                    id="activity-date-input"
+                                    placeholder="Select date" 
+                                    readonly
+                                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="activity-date-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="activity-date-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="activity-date-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="activity-date-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="activity-date-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="activity-date-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="activity-date-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Travelers -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-users text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Travelers</label>
+                            </div>
+                            <select id="activity-travelers-select" class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                                <option>1 Adult</option>
+                                <option>2 Adults</option>
+                                <option>3 Adults</option>
+                                <option>4 Adults</option>
+                                <option>1 Adult, 1 Child</option>
+                                <option>2 Adults, 1 Child</option>
+                                <option>2 Adults, 2 Children</option>
+                                <option>Group (5+)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button id="activity-search-btn" class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Find Activities
+                    </button>
+                </div>
+                
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                    <span class="text-green-200">Popular activities:</span>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Angkor Wat Tours</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Island Hopping</a>
+                    <a href="#" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full transition duration-300">Cooking Classes</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Categories Section -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Browse by Category</h2>
+                <a href="#" class="text-primary font-medium hover:underline">
+                    View all categories <i class="fas fa-chevron-right ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <a href="#" class="category-card bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-2xl transition duration-300">
+                    <div class="bg-blue-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-landmark text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Tours & Sightseeing</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-2xl transition duration-300">
+                    <div class="bg-green-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-utensils text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Food & Drink</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-2xl transition duration-300">
+                    <div class="bg-yellow-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-hiking text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Outdoor Activities</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-2xl transition duration-300">
+                    <div class="bg-purple-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-spa text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Wellness & Spa</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-2xl transition duration-300">
+                    <div class="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-ship text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Water Activities</h3>
+                </a>
+                
+                <a href="#" class="category-card bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-2xl transition duration-300">
+                    <div class="bg-indigo-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-theater-masks text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800">Cultural Shows</h3>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Featured Activities -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Featured Activities</h2>
+                <div class="flex items-center">
+                    <span class="text-gray-600 mr-3">Sort by:</span>
+                    <select class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option>Most Popular</option>
+                        <option>Top Rated</option>
+                        <option>Price (Low to High)</option>
+                        <option>Price (High to Low)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Activity 1 -->
+                <div class="activity-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <div class="activity-badge">BEST SELLER</div>
+                        <img src="https://images.unsplash.com/photo-1564574662336-88c9f5a6c8d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Angkor Wat Sunrise Tour" 
+                             class="w-full h-56 object-cover">
+                        <div class="activity-image-overlay">
+                            <h3 class="text-white font-bold text-xl">Angkor Wat Sunrise Tour</h3>
+                            <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Siem Reap, Cambodia</p>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center mb-3">
+                            <span class="activity-tag bg-blue-100 text-blue-800 mr-2">Guided Tour</span>
+                            <span class="activity-tag bg-green-100 text-green-800">Small Group</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">Witness the spectacular sunrise over Angkor Wat followed by a guided tour of the temple complex.</p>
+                        
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                <span class="font-bold text-gray-800">4.9</span>
+                                <span class="text-gray-500 text-sm ml-1">(2,543 reviews)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-primary mr-1"></i>
+                                <span class="text-gray-600 text-sm">5 hours</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span class="text-gray-600 text-sm">Free cancellation up to 24 hours</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$45</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <div class="flex items-center mt-1">
+                                    <span class="price-slash text-gray-500 mr-2">$65</span>
+                                    <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 31%</span>
+                                </div>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-activity-btn">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity 2 -->
+                <div class="activity-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <div class="activity-badge" style="background-color: #10b981;">NEW</div>
+                        <img src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Cambodian Cooking Class" 
+                             class="w-full h-56 object-cover">
+                        <div class="activity-image-overlay">
+                            <h3 class="text-white font-bold text-xl">Cambodian Cooking Class</h3>
+                            <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Phnom Penh, Cambodia</p>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center mb-3">
+                            <span class="activity-tag bg-purple-100 text-purple-800 mr-2">Cooking Class</span>
+                            <span class="activity-tag bg-yellow-100 text-yellow-800">Market Tour</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">Learn to cook traditional Khmer dishes with a local chef. Includes market tour and recipe book.</p>
+                        
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                <span class="font-bold text-gray-800">4.8</span>
+                                <span class="text-gray-500 text-sm ml-1">(876 reviews)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-primary mr-1"></i>
+                                <span class="text-gray-600 text-sm">4 hours</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span class="text-gray-600 text-sm">Free cancellation up to 48 hours</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$38</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <p class="text-green-700 text-sm font-medium mt-1"><i class="fas fa-utensils mr-1"></i> Meal included</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-activity-btn">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity 3 -->
+                <div class="activity-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <div class="activity-badge" style="background-color: #f59e0b;">LIMITED TIME</div>
+                        <img src="https://images.unsplash.com/photo-1573843989-c9d7ad1de5c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Koh Rong Island Hopping" 
+                             class="w-full h-56 object-cover">
+                        <div class="activity-image-overlay">
+                            <h3 class="text-white font-bold text-xl">Koh Rong Island Hopping</h3>
+                            <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Sihanoukville, Cambodia</p>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center mb-3">
+                            <span class="activity-tag bg-red-100 text-red-800 mr-2">Boat Tour</span>
+                            <span class="activity-tag bg-blue-100 text-blue-800">Snorkeling</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">Full-day island hopping tour visiting 4 pristine islands with snorkeling and lunch included.</p>
+                        
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                <span class="font-bold text-gray-800">4.7</span>
+                                <span class="text-gray-500 text-sm ml-1">(1,342 reviews)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-primary mr-1"></i>
+                                <span class="text-gray-600 text-sm">8 hours</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span class="text-gray-600 text-sm">Free cancellation up to 24 hours</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$65</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <div class="flex items-center mt-1">
+                                    <span class="price-slash text-gray-500 mr-2">$85</span>
+                                    <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 24%</span>
+                                </div>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-activity-btn">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity 4 -->
+                <div class="activity-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3e61f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Phnom Penh City Tour" 
+                             class="w-full h-56 object-cover">
+                        <div class="activity-image-overlay">
+                            <h3 class="text-white font-bold text-xl">Phnom Penh City Tour</h3>
+                            <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Phnom Penh, Cambodia</p>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center mb-3">
+                            <span class="activity-tag bg-green-100 text-green-800 mr-2">City Tour</span>
+                            <span class="activity-tag bg-purple-100 text-purple-800">Historical</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">Explore Phnom Penh's highlights including Royal Palace, Silver Pagoda, and National Museum.</p>
+                        
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                <span class="font-bold text-gray-800">4.6</span>
+                                <span class="text-gray-500 text-sm ml-1">(987 reviews)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-primary mr-1"></i>
+                                <span class="text-gray-600 text-sm">6 hours</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span class="text-gray-600 text-sm">Free cancellation up to 24 hours</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$32</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mt-1">Private tour available</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-activity-btn">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity 5 -->
+                <div class="activity-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <div class="activity-badge" style="background-color: #8b5cf6;">PRIVATE TOUR</div>
+                        <img src="https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Kirirom National Park Hike" 
+                             class="w-full h-56 object-cover">
+                        <div class="activity-image-overlay">
+                            <h3 class="text-white font-bold text-xl">Kirirom National Park Hike</h3>
+                            <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Kirirom, Cambodia</p>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center mb-3">
+                            <span class="activity-tag bg-yellow-100 text-yellow-800 mr-2">Hiking</span>
+                            <span class="activity-tag bg-green-100 text-green-800">Nature</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">Guided hiking tour through Kirirom's pine forests with waterfall visit and picnic lunch.</p>
+                        
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                <span class="font-bold text-gray-800">4.8</span>
+                                <span class="text-gray-500 text-sm ml-1">(543 reviews)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-primary mr-1"></i>
+                                <span class="text-gray-600 text-sm">7 hours</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span class="text-gray-600 text-sm">Free cancellation up to 48 hours</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$55</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <div class="flex items-center mt-1">
+                                    <span class="price-slash text-gray-500 mr-2">$75</span>
+                                    <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 27%</span>
+                                </div>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-activity-btn">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity 6 -->
+                <div class="activity-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Traditional Apsara Dance Show" 
+                             class="w-full h-56 object-cover">
+                        <div class="activity-image-overlay">
+                            <h3 class="text-white font-bold text-xl">Traditional Apsara Dance Show</h3>
+                            <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Siem Reap, Cambodia</p>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center mb-3">
+                            <span class="activity-tag bg-pink-100 text-pink-800 mr-2">Cultural Show</span>
+                            <span class="activity-tag bg-blue-100 text-blue-800">Dinner Included</span>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">Evening performance of traditional Khmer Apsara dance with buffet dinner.</p>
+                        
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center mr-4">
+                                <i class="fas fa-star text-yellow-500 mr-1"></i>
+                                <span class="font-bold text-gray-800">4.7</span>
+                                <span class="text-gray-500 text-sm ml-1">(1,098 reviews)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-primary mr-1"></i>
+                                <span class="text-gray-600 text-sm">2.5 hours</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span class="text-gray-600 text-sm">Free cancellation up to 24 hours</span>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="text-2xl font-bold text-gray-800">$28</span>
+                                    <span class="text-gray-500 text-sm ml-2">/person</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mt-1">Buffet dinner included</p>
+                            </div>
+                            <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-activity-btn">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Popular Destinations -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Popular Destinations</h2>
+                <a href="#" class="text-primary font-medium hover:underline">
+                    View all destinations <i class="fas fa-chevron-right ml-1"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1564574662336-88c9f5a6c8d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Siem Reap" 
+                             class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Siem Reap</h3>
+                        <p class="text-gray-600 mb-4">Home to the magnificent Angkor Wat temple complex</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-500">Activities</p>
+                                <p class="font-bold text-gray-800">124</p>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline">Explore <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3e61f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Phnom Penh" 
+                             class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Phnom Penh</h3>
+                        <p class="text-gray-600 mb-4">Vibrant capital city with rich history and culture</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-500">Activities</p>
+                                <p class="font-bold text-gray-800">98</p>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline">Explore <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="destination-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1573843989-c9d7ad1de5c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Sihanoukville" 
+                             class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Sihanoukville</h3>
+                        <p class="text-gray-600 mb-4">Coastal city with beautiful beaches and islands</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-sm text-gray-500">Activities</p>
+                                <p class="font-bold text-gray-800">76</p>
+                            </div>
+                            <a href="#" class="text-primary font-medium hover:underline">Explore <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Why Book With Us -->
+        <section class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-8 mb-12">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Book Activities with DerLg?</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">We offer the best selection of tours and activities with guaranteed lowest prices</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-shield-alt text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Best Price Guarantee</h3>
+                    <p class="text-gray-600">Find a lower price for the same activity and we'll match it or refund the difference.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-clock text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Last Minute Booking</h3>
+                    <p class="text-gray-600">Book activities even on the same day with instant confirmation.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-headset text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">24/7 Support</h3>
+                    <p class="text-gray-600">Get assistance before, during, and after your activity from our travel experts.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="text-2xl font-bold text-white mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Der<span class="text-secondary">Lg</span></h2>
+                    </div>
+                    <p class="text-gray-400">Making travel accessible and enjoyable for everyone since 2025.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Things to Do</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Tours & Sightseeing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Food & Drink</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Outdoor Activities</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cultural Experiences</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Support</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Booking Changes</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cancellation Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Safety Information</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Stay Updated</h3>
+                    <p class="text-gray-400 mb-4">Subscribe for new activity alerts</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-grow p-3 rounded-l-lg text-gray-800 focus:outline-none">
+                        <button class="bg-primary hover:bg-blue-800 px-4 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 DerLg. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="thing.js"></script>
+</body>
+</html>
