@@ -13,9 +13,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0077b6',
-                        secondary: '#0094ff',
-                        accent: '#f4f6f8',
+                        primary: 'oklch(54.6% 0.245 262.881)',
+                        secondary: 'oklch(62.3% 0.214 259.815)',
                     },
                     fontFamily: {
                         'inter': ['Inter', 'sans-serif'],
@@ -29,7 +28,7 @@
         }
     </script>
 </head>
-<body class="bg-gray-50 font-inter">
+<body class="bg-gray-50">
     <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4">
@@ -44,6 +43,9 @@
                 
                 <!-- Navigation -->
                 <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-4 md:mb-0">
+                    <a href="index.html" class="text-blue-600 font-medium flex items-center border-b-2 border-blue-600 pb-1">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </a>
                     <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
                         <i class="fas fa-hotel mr-2"></i> Hotels
                     </a>
@@ -53,14 +55,14 @@
                     <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
                         <i class="fas fa-map-marked-alt mr-2"></i> Things to Do
                     </a>
-                    <a href="#" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                    <a href="deal.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
                         <i class="fas fa-tag mr-2"></i> Deals
                     </a>
                 </nav>
                 
                 <!-- Auth Buttons -->
                 <div class="flex items-center space-x-4">
-                    <a href="#" class="text-secondary font-medium hover:text-primary">
+                    <a href="#" class="text-blue-500 font-medium hover:text-blue-700">
                         <i class="fas fa-sign-in-alt mr-1"></i> Sign In
                     </a>
                     <a href="#" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-800 transition duration-300">
@@ -477,9 +479,9 @@
             });
         });
 
-        // Date Picker functionality
+        // Updated DatePicker class with validation
         class DatePicker {
-            constructor(inputId, calendarId) {
+            constructor(inputId, calendarId, otherPicker = null) {
                 this.input = document.getElementById(inputId);
                 this.calendar = document.getElementById(calendarId);
                 this.monthYearElement = document.getElementById(calendarId.replace('calendar', 'month-year'));
@@ -491,6 +493,7 @@
                 
                 this.currentDate = new Date();
                 this.selectedDate = null;
+                this.otherPicker = otherPicker; // Reference to the other date picker (checkin or checkout)
                 
                 this.init();
             }
@@ -590,21 +593,45 @@
                         dateCell.classList.add('text-gray-800');
                     }
                     
+                    // Determine if date should be disabled
+                    let isDisabled = false;
+                    
                     // Check if date is in the past (disable for check-in)
                     if (date < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                        isDisabled = true;
+                    }
+                    
+                    // Additional validation logic for check-in and check-out
+                    if (this.otherPicker && this.otherPicker.selectedDate) {
+                        if (this.input.id.includes('checkin')) {
+                            // For check-in: disable dates after selected check-out date
+                            if (date > this.otherPicker.selectedDate) {
+                                isDisabled = true;
+                            }
+                        } else if (this.input.id.includes('checkout')) {
+                            // For check-out: disable dates before selected check-in date
+                            if (date < this.otherPicker.selectedDate) {
+                                isDisabled = true;
+                            }
+                        }
+                    }
+                    
+                    // Apply disabled styling if date should be disabled
+                    if (isDisabled) {
                         dateCell.classList.add('disabled-date');
                         dateCell.classList.remove('date-cell', 'cursor-pointer');
+                        dateCell.classList.add('text-gray-400', 'cursor-not-allowed');
                     }
                     
                     dateCell.textContent = day;
                     dateCell.dataset.date = date.toISOString().split('T')[0];
                     
-                    // Add click event
-                    dateCell.addEventListener('click', () => {
-                        if (!dateCell.classList.contains('disabled-date')) {
+                    // Add click event only if not disabled
+                    if (!isDisabled) {
+                        dateCell.addEventListener('click', () => {
                             this.selectDate(date);
-                        }
-                    });
+                        });
+                    }
                     
                     this.datesContainer.appendChild(dateCell);
                 }
@@ -622,6 +649,27 @@
                 const options = { year: 'numeric', month: 'short', day: 'numeric' };
                 this.input.value = date.toLocaleDateString('en-US', options);
                 
+                // If we have an other picker reference, update its calendar to reflect new constraints
+                if (this.otherPicker) {
+                    this.otherPicker.renderCalendar();
+                    
+                    // If this is check-in and check-out is before, clear check-out
+                    if (this.input.id.includes('checkin') && this.otherPicker.selectedDate) {
+                        if (this.otherPicker.selectedDate <= date) {
+                            this.otherPicker.clearSelection();
+                            alert('Check-out date has been cleared because it must be after check-in date.');
+                        }
+                    }
+                    
+                    // If this is check-out and check-in is after, clear check-in
+                    if (this.input.id.includes('checkout') && this.otherPicker.selectedDate) {
+                        if (this.otherPicker.selectedDate >= date) {
+                            this.otherPicker.clearSelection();
+                            alert('Check-in date has been cleared because it must be before check-out date.');
+                        }
+                    }
+                }
+                
                 // Update calendar display
                 this.renderCalendar();
                 
@@ -629,13 +677,6 @@
                 setTimeout(() => {
                     this.calendar.classList.add('hidden');
                 }, 300);
-                
-                // Trigger validation if needed
-                if (this.input.id === 'checkin-input' && checkoutPicker.selectedDate) {
-                    if (checkoutPicker.selectedDate <= date) {
-                        checkoutPicker.clearSelection();
-                    }
-                }
             }
             
             selectToday() {
@@ -648,12 +689,21 @@
                 this.selectedDate = null;
                 this.input.value = '';
                 this.renderCalendar();
+                
+                // If we have an other picker, update its calendar to remove constraints
+                if (this.otherPicker) {
+                    this.otherPicker.renderCalendar();
+                }
             }
         }
-        
-        // Initialize date pickers
+
+        // Initialize date pickers with cross-references
         const checkinPicker = new DatePicker('checkin-input', 'checkin-calendar');
         const checkoutPicker = new DatePicker('checkout-input', 'checkout-calendar');
+
+        // Set up the cross-references AFTER both are created
+        checkinPicker.otherPicker = checkoutPicker;
+        checkoutPicker.otherPicker = checkinPicker;
         
         // Get references to editable inputs
         const destinationInput = document.getElementById('destination-input');

@@ -1,0 +1,81 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+.deal-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.deal-card:hover {
+    transform: translateY(-5px);
+}
+.price-slash {
+    position: relative;
+    display: inline-block;
+}
+.price-slash::before {
+    content: "";
+    position: absolute;
+    left: -5%;
+    top: 50%;
+    width: 110%;
+    height: 2px;
+    background: #ef4444;
+    transform: rotate(-15deg);
+}
+.deal-badge {
+    position: absolute;
+    top: 15px;
+    left: -5px;
+    background: #ef4444;
+    color: white;
+    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 0.875rem;
+    z-index: 10;
+}
+.deal-badge::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    border-top: 5px solid #c53030;
+    border-left: 5px solid transparent;
+}
+.filter-btn.active {
+    background-color: oklch(54.6% 0.245 262.881);
+    color: white;
+}
+.filter-btn.active:hover {
+    color: white;
+}
+.deal-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.deal-image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    padding: 20px 15px 15px;
+}
+.calendar-container {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.date-cell:hover {
+    background-color: #e6f2ff;
+}
+.selected-date {
+    background-color: oklch(54.6% 0.245 262.881);
+    color: white;
+}
+.today {
+    border: 2px solid oklch(54.6% 0.245 262.881);
+}
+.disabled-date {
+    opacity: 0.4;
+    cursor: not-allowed !important;
+}

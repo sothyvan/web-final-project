@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Deals - DerLg Travel Agency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="deal.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'oklch(54.6% 0.245 262.881)',
+                        secondary: 'oklch(62.3% 0.214 259.815)',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-inter">
+    <!-- Header - Consistent with main page -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center mb-4 md:mb-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="text-2xl font-bold text-primary mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-800">Der<span class="text-primary">Lg</span></h1>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-4 md:mb-0">
+                    <a href="index.html" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </a>
+                    <a href="index.html#hotels" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-hotel mr-2"></i> Hotels
+                    </a>
+                    <a href="index.html#transport" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-bus mr-2"></i> Transport
+                    </a>
+                    <a href="index.html#things-to-do" class="text-gray-700 hover:text-primary font-medium flex items-center">
+                        <i class="fas fa-map-marked-alt mr-2"></i> Things to Do
+                    </a>
+                    <a href="deal.html" class="text-primary font-medium flex items-center border-b-2 border-primary pb-1">
+                        <i class="fas fa-tag mr-2"></i> Deals
+                    </a>
+                </nav>
+                
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-primary font-medium hover:text-blue-800">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Sign In
+                    </a>
+                    <a href="#" class="bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-800 transition duration-300">
+                        <i class="fas fa-user-plus mr-2"></i> Create Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Deals Hero Section -->
+    <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Exclusive Travel Deals</h1>
+                <p class="text-xl mb-8 text-blue-100">Save up to 70% on hotels, flights, and vacation packages</p>
+                
+                <!-- Deal Search Bar with Date Pickers -->
+                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-2xl max-w-4xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <!-- Destination Input -->
+                        <div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Destination</label>
+                            </div>
+                            <input type="text" 
+                                    id="deal-destination-input"
+                                    placeholder="Where do you want to go?" 
+                                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800">
+                        </div>
+                        
+                        <!-- Check-in Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Check-in</label>
+                            </div>
+                            <input type="text" 
+                                    id="deal-checkin-input"
+                                    placeholder="Select date" 
+                                    readonly
+                                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="deal-checkin-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="deal-checkin-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="deal-checkin-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="deal-checkin-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="deal-checkin-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="deal-checkin-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="deal-checkin-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Check-out Date -->
+                        <div class="relative">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-check text-primary mr-2"></i>
+                                <label class="text-gray-700 font-medium">Check-out</label>
+                            </div>
+                            <input type="text" 
+                                    id="deal-checkout-input"
+                                    placeholder="Select date" 
+                                    readonly
+                                    class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent cursor-pointer bg-white text-gray-800">
+                            
+                            <!-- Calendar Popup -->
+                            <div id="deal-checkout-calendar" class="hidden absolute z-50 mt-2 calendar-container">
+                                <div class="bg-white rounded-xl p-4 w-72">
+                                    <!-- Calendar Header -->
+                                    <div class="flex justify-between items-center mb-4">
+                                        <button type="button" id="deal-checkout-prev-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h3 id="deal-checkout-month-year" class="font-bold text-gray-800">April 2023</h3>
+                                        <button type="button" id="deal-checkout-next-month" class="p-2 hover:bg-gray-100 rounded-full">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Days of Week -->
+                                    <div class="grid grid-cols-7 gap-1 mb-2">
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sun</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Mon</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Tue</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Wed</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Thu</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Fri</div>
+                                        <div class="text-center text-gray-500 text-sm font-medium">Sat</div>
+                                    </div>
+                                    
+                                    <!-- Calendar Dates -->
+                                    <div id="deal-checkout-dates" class="grid grid-cols-7 gap-1">
+                                        <!-- Dates will be populated by JavaScript -->
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-between mt-4 pt-4 border-t">
+                                        <button type="button" id="deal-checkout-today" class="px-4 py-2 text-primary hover:bg-blue-50 rounded-lg">
+                                            Today
+                                        </button>
+                                        <button type="button" id="deal-checkout-clear" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="deal-search-btn" class="w-full bg-primary hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition duration-300">
+                        <i class="fas fa-search mr-2"></i> Find Deals
+                    </button>
+                </div>
+                
+                <p class="mt-6 text-blue-200">
+                    <i class="fas fa-bolt mr-2"></i> Flash deals end soon! Book now to secure these prices
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Deals Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Filter Section -->
+        <div class="mb-8">
+            <div class="flex flex-wrap justify-between items-center mb-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Featured Deals</h2>
+                <div class="flex items-center">
+                    <span class="text-gray-600 mr-3">Sort by:</span>
+                    <select class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option>Recommended</option>
+                        <option>Price (Low to High)</option>
+                        <option>Price (High to Low)</option>
+                        <option>Discount %</option>
+                        <option>Expiring Soon</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap gap-3 mb-8">
+                <button class="filter-btn active px-5 py-2 rounded-full border border-primary text-primary font-medium">
+                    All Deals
+                </button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                    <i class="fas fa-hotel mr-2"></i> Hotel Deals
+                </button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                    <i class="fas fa-plane mr-2"></i> Flight Deals
+                </button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                    <i class="fas fa-umbrella-beach mr-2"></i> Vacation Packages
+                </button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                    <i class="fas fa-percentage mr-2"></i> Last Minute
+                </button>
+                <button class="filter-btn px-5 py-2 rounded-full border border-gray-300 text-gray-700 font-medium hover:border-primary hover:text-primary">
+                    <i class="fas fa-star mr-2"></i> Member Exclusives
+                </button>
+            </div>
+            
+            <!-- Deal Count & Info -->
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-6">
+                <div class="flex flex-wrap items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-fire text-red-500 text-xl mr-3"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-800">Flash Sale Active!</h3>
+                            <p class="text-gray-600 text-sm">These deals expire in <span class="font-bold text-red-600">2 days 14 hours</span></p>
+                        </div>
+                    </div>
+                    <div class="mt-3 md:mt-0">
+                        <span class="text-gray-600 mr-2">Showing</span>
+                        <span class="font-bold text-gray-800">24 deals</span>
+                        <span class="text-gray-600 ml-2">from 132 available</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Deals Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <!-- Deal 1 -->
+            <div class="deal-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                    <div class="deal-badge">FLASH SALE</div>
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Luxury Beach Resort" 
+                         class="w-full h-56 object-cover">
+                    <div class="deal-image-overlay">
+                        <h3 class="text-white font-bold text-xl">Luxury Beach Resort</h3>
+                        <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Koh Rong, Cambodia</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center mb-3">
+                        <span class="deal-tag bg-green-100 text-green-800 mr-2">All Inclusive</span>
+                        <span class="deal-tag bg-blue-100 text-blue-800">Free Cancellation</span>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-4">5-star luxury resort with private beach access, spa, and 3 pools</p>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-star text-yellow-500 mr-1"></i>
+                            <span class="font-bold text-gray-800">4.9</span>
+                            <span class="text-gray-500 text-sm ml-1">(1,243 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-wifi text-primary mr-1"></i>
+                            <span class="text-gray-600 text-sm">Free WiFi</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t">
+                        <div>
+                            <div class="flex items-center">
+                                <span class="text-2xl font-bold text-gray-800">$189</span>
+                                <span class="text-gray-500 text-sm ml-2">/night</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <span class="price-slash text-gray-500 mr-2">$329</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 42%</span>
+                            </div>
+                        </div>
+                        <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-deal-btn">
+                            View Deal
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>Deal ends in 2 days</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deal 2 -->
+            <div class="deal-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                    <div class="deal-badge" style="background-color: #10b981;">MEMBER DEAL</div>
+                    <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="City Center Hotel" 
+                         class="w-full h-56 object-cover">
+                    <div class="deal-image-overlay">
+                        <h3 class="text-white font-bold text-xl">City Center Hotel</h3>
+                        <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Phnom Penh, Cambodia</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center mb-3">
+                        <span class="deal-tag bg-purple-100 text-purple-800 mr-2">Breakfast Included</span>
+                        <span class="deal-tag bg-blue-100 text-blue-800">Central Location</span>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-4">Modern 4-star hotel in the heart of the city, walking distance to attractions</p>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-star text-yellow-500 mr-1"></i>
+                            <span class="font-bold text-gray-800">4.7</span>
+                            <span class="text-gray-500 text-sm ml-1">(892 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-swimming-pool text-primary mr-1"></i>
+                            <span class="text-gray-600 text-sm">Pool</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t">
+                        <div>
+                            <div class="flex items-center">
+                                <span class="text-2xl font-bold text-gray-800">$79</span>
+                                <span class="text-gray-500 text-sm ml-2">/night</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <span class="price-slash text-gray-500 mr-2">$125</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 37%</span>
+                            </div>
+                            <p class="text-green-700 text-sm font-medium mt-1"><i class="fas fa-crown mr-1"></i> Extra 10% off for members</p>
+                        </div>
+                        <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-deal-btn">
+                            View Deal
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-user-check mr-2"></i>
+                        <span>Member exclusive deal</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deal 3 -->
+            <div class="deal-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                    <div class="deal-badge" style="background-color: #f59e0b;">LAST MINUTE</div>
+                    <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Mountain Resort" 
+                         class="w-full h-56 object-cover">
+                    <div class="deal-image-overlay">
+                        <h3 class="text-white font-bold text-xl">Mountain Resort</h3>
+                        <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Kirirom, Cambodia</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center mb-3">
+                        <span class="deal-tag bg-red-100 text-red-800 mr-2">Hot Deal</span>
+                        <span class="deal-tag bg-green-100 text-green-800">Family Friendly</span>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-4">Eco-friendly resort in the mountains with hiking trails and panoramic views</p>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-star text-yellow-500 mr-1"></i>
+                            <span class="font-bold text-gray-800">4.8</span>
+                            <span class="text-gray-500 text-sm ml-1">(567 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-utensils text-primary mr-1"></i>
+                            <span class="text-gray-600 text-sm">Restaurant</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t">
+                        <div>
+                            <div class="flex items-center">
+                                <span class="text-2xl font-bold text-gray-800">$112</span>
+                                <span class="text-gray-500 text-sm ml-2">/night</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <span class="price-slash text-gray-500 mr-2">$224</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 50%</span>
+                            </div>
+                        </div>
+                        <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-deal-btn">
+                            View Deal
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-bolt mr-2"></i>
+                        <span>Last minute deal - limited rooms</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deal 4 -->
+            <div class="deal-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Flight + Hotel Package" 
+                         class="w-full h-56 object-cover">
+                    <div class="deal-image-overlay">
+                        <h3 class="text-white font-bold text-xl">Flight + Hotel Package</h3>
+                        <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Siem Reap, Cambodia</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center mb-3">
+                        <span class="deal-tag bg-blue-100 text-blue-800 mr-2">Package Deal</span>
+                        <span class="deal-tag bg-yellow-100 text-yellow-800">Guided Tours</span>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-4">Complete vacation package including flights, 5-star hotel, and Angkor Wat tour</p>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-star text-yellow-500 mr-1"></i>
+                            <span class="font-bold text-gray-800">4.9</span>
+                            <span class="text-gray-500 text-sm ml-1">(2,134 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-plane text-primary mr-1"></i>
+                            <span class="text-gray-600 text-sm">Flight Included</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t">
+                        <div>
+                            <div class="flex items-center">
+                                <span class="text-2xl font-bold text-gray-800">$599</span>
+                                <span class="text-gray-500 text-sm ml-2">/person</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <span class="price-slash text-gray-500 mr-2">$899</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 33%</span>
+                            </div>
+                            <p class="text-gray-600 text-sm mt-1">3 nights, roundtrip flights included</p>
+                        </div>
+                        <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-deal-btn">
+                            View Deal
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        <span>Valid for travel until Dec 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deal 5 -->
+            <div class="deal-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                    <div class="deal-badge" style="background-color: #8b5cf6;">EARLY BIRD</div>
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Island Resort" 
+                         class="w-full h-56 object-cover">
+                    <div class="deal-image-overlay">
+                        <h3 class="text-white font-bold text-xl">Private Island Resort</h3>
+                        <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Koh Sdach, Cambodia</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center mb-3">
+                        <span class="deal-tag bg-pink-100 text-pink-800 mr-2">Luxury</span>
+                        <span class="deal-tag bg-blue-100 text-blue-800">Overwater Bungalow</span>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-4">Exclusive private island resort with overwater bungalows and private pool villas</p>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-star text-yellow-500 mr-1"></i>
+                            <span class="font-bold text-gray-800">4.9</span>
+                            <span class="text-gray-500 text-sm ml-1">(743 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-water text-primary mr-1"></i>
+                            <span class="text-gray-600 text-sm">Snorkeling</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t">
+                        <div>
+                            <div class="flex items-center">
+                                <span class="text-2xl font-bold text-gray-800">$299</span>
+                                <span class="text-gray-500 text-sm ml-2">/night</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <span class="price-slash text-gray-500 mr-2">$499</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 40%</span>
+                            </div>
+                            <p class="text-purple-700 text-sm font-medium mt-1"><i class="fas fa-gift mr-1"></i> Free spa treatment</p>
+                        </div>
+                        <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-deal-btn">
+                            View Deal
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-calendar-plus mr-2"></i>
+                        <span>Book 60 days in advance for this price</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Deal 6 -->
+            <div class="deal-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Budget Hotel" 
+                         class="w-full h-56 object-cover">
+                    <div class="deal-image-overlay">
+                        <h3 class="text-white font-bold text-xl">Budget Hotel Deal</h3>
+                        <p class="text-blue-200"><i class="fas fa-map-marker-alt mr-1"></i> Sihanoukville, Cambodia</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center mb-3">
+                        <span class="deal-tag bg-green-100 text-green-800 mr-2">Budget</span>
+                        <span class="deal-tag bg-blue-100 text-blue-800">Near Beach</span>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-4">Clean and comfortable budget hotel just 5 minutes walk from the beach</p>
+                    
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center mr-4">
+                            <i class="fas fa-star text-yellow-500 mr-1"></i>
+                            <span class="font-bold text-gray-800">4.3</span>
+                            <span class="text-gray-500 text-sm ml-1">(421 reviews)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-coffee text-primary mr-1"></i>
+                            <span class="text-gray-600 text-sm">Free Breakfast</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t">
+                        <div>
+                            <div class="flex items-center">
+                                <span class="text-2xl font-bold text-gray-800">$35</span>
+                                <span class="text-gray-500 text-sm ml-2">/night</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <span class="price-slash text-gray-500 mr-2">$58</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Save 40%</span>
+                            </div>
+                        </div>
+                        <button class="bg-primary hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-xl transition duration-300 view-deal-btn">
+                            View Deal
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4 text-sm text-gray-500 flex items-center">
+                        <i class="fas fa-tag mr-2"></i>
+                        <span>Best price guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Promo Banner -->
+        <div class="bg-gradient-to-r from-green-500 to-green-700 rounded-2xl p-8 mb-12 text-white">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2">Sign Up & Save More!</h3>
+                    <p class="text-green-100">Create a free DerLg account to get exclusive member-only deals and an extra 10% off your first booking.</p>
+                </div>
+                <div>
+                    <button id="create-account-btn" class="bg-white text-green-700 hover:bg-green-100 font-bold py-3 px-8 rounded-xl transition duration-300">
+                        <i class="fas fa-user-plus mr-2"></i> Create Free Account
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Deals FAQ -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Deals FAQ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-2">How do I get the best deals?</h3>
+                    <p class="text-gray-600 mb-4">Sign up for our newsletter and enable push notifications to get alerted when new deals are available. Member-exclusive deals are only available to logged-in users.</p>
+                    
+                    <h3 class="font-bold text-gray-800 mb-2">Are these deals refundable?</h3>
+                    <p class="text-gray-600">Most deals have flexible cancellation policies, but check individual deal terms. Look for the "Free Cancellation" tag for the most flexible options.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gray-800 mb-2">How long do deals last?</h3>
+                    <p class="text-gray-600 mb-4">Flash sales typically last 1-3 days. Other deals may be available for weeks or until sold out. Each deal shows an expiration date or time remaining.</p>
+                    
+                    <h3 class="font-bold text-gray-800 mb-2">Can I combine multiple deals?</h3>
+                    <p class="text-gray-600">Most deals cannot be combined unless specifically stated. However, members often get additional discounts on top of existing deals.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="text-2xl font-bold text-white mr-2">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Der<span class="text-secondary">Lg</span></h2>
+                    </div>
+                    <p class="text-gray-400">Making travel accessible and enjoyable for everyone since 2025.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Deals</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Hotel Deals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Flight Deals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Package Deals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Last Minute</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Support</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cancellation Options</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Safety Information</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Stay Updated</h3>
+                    <p class="text-gray-400 mb-4">Subscribe for exclusive deal alerts</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-grow p-3 rounded-l-lg text-gray-800 focus:outline-none">
+                        <button class="bg-primary hover:bg-blue-800 px-4 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <p class="text-gray-400 text-sm mt-4">
+                        <i class="fas fa-shield-alt mr-2"></i> We never share your email with third parties
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 DerLg. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Filter button functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'border-blue-600',  'hover:text-white');
+                    b.classList.add('border-gray-300', 'text-gray-700');
+                });
+                
+                // Add active class to clicked button
+                this.classList.remove('border-gray-300', 'text-gray-700');
+                this.classList.add('active', 'border-blue-600', 'hover:text-white');
+                
+                // In a real app, this would filter the deals
+                console.log('Filtering by: ' + this.textContent.trim());
+            });
+        });
+        
+        // Deal card hover effect
+        document.querySelectorAll('.deal-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.1)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.08)';
+            });
+        });
+        
+        // "View Deal" button functionality
+        document.querySelectorAll('button.bg-blue-600').forEach(btn => {
+            if (btn.textContent.includes('View Deal')) {
+                btn.addEventListener('click', function() {
+                    // In a real app, this would redirect to the deal page
+                    const dealTitle = this.closest('.deal-card').querySelector('h3').textContent;
+                    alert(`Redirecting to the "${dealTitle}" deal page...`);
+                });
+            }
+        });
+        
+        // Create Account button in promo banner
+        document.querySelector('button.bg-white.text-green-700').addEventListener('click', function() {
+            alert('Redirecting to account creation page...');
+        });
+
+        // Updated DatePicker class with validation
+        class DatePicker {
+            constructor(inputId, calendarId, otherPicker = null) {
+                this.input = document.getElementById(inputId);
+                this.calendar = document.getElementById(calendarId);
+                this.monthYearElement = document.getElementById(calendarId.replace('calendar', 'month-year'));
+                this.datesContainer = document.getElementById(calendarId.replace('calendar', 'dates'));
+                this.prevBtn = document.getElementById(calendarId.replace('calendar', 'prev-month'));
+                this.nextBtn = document.getElementById(calendarId.replace('calendar', 'next-month'));
+                this.todayBtn = document.getElementById(calendarId.replace('calendar', 'today'));
+                this.clearBtn = document.getElementById(calendarId.replace('calendar', 'clear'));
+                
+                this.currentDate = new Date();
+                this.selectedDate = null;
+                this.otherPicker = otherPicker; // Reference to the other date picker (checkin or checkout)
+                
+                this.init();
+            }
+            
+            init() {
+                // Open calendar when input is clicked
+                this.input.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggleCalendar();
+                });
+                
+                // Navigation buttons
+                this.prevBtn.addEventListener('click', () => this.changeMonth(-1));
+                this.nextBtn.addEventListener('click', () => this.changeMonth(1));
+                
+                // Today button
+                this.todayBtn.addEventListener('click', () => this.selectToday());
+                
+                // Clear button
+                this.clearBtn.addEventListener('click', () => this.clearSelection());
+                
+                // Close calendar when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!this.calendar.contains(e.target) && e.target !== this.input) {
+                        this.calendar.classList.add('hidden');
+                    }
+                });
+                
+                // Close on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.calendar.classList.add('hidden');
+                    }
+                });
+                
+                // Initialize calendar
+                this.renderCalendar();
+            }
+            
+            toggleCalendar() {
+                // Hide all other calendars first
+                document.querySelectorAll('.calendar-container').forEach(cal => {
+                    cal.classList.add('hidden');
+                });
+                
+                // Toggle this calendar
+                this.calendar.classList.toggle('hidden');
+                
+                // Update calendar view
+                this.renderCalendar();
+            }
+            
+            renderCalendar() {
+                const year = this.currentDate.getFullYear();
+                const month = this.currentDate.getMonth();
+                
+                // Update month/year display
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                                    "July", "August", "September", "October", "November", "December"];
+                this.monthYearElement.textContent = `${monthNames[month]} ${year}`;
+                
+                // Get first day of month and total days
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+                
+                // Clear previous dates
+                this.datesContainer.innerHTML = '';
+                
+                // Add empty cells for days before the first day of month
+                for (let i = 0; i < firstDay; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = 'h-10';
+                    this.datesContainer.appendChild(emptyCell);
+                }
+                
+                // Add date cells
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const date = new Date(year, month, day);
+                    const dateCell = document.createElement('div');
+                    dateCell.className = 'h-10 flex items-center justify-center rounded-lg date-cell cursor-pointer';
+                    
+                    // Check if this is today
+                    if (date.getDate() === today.getDate() && 
+                        date.getMonth() === today.getMonth() && 
+                        date.getFullYear() === today.getFullYear()) {
+                        dateCell.classList.add('today');
+                    }
+                    
+                    // Check if this is selected date
+                    if (this.selectedDate && 
+                        date.getDate() === this.selectedDate.getDate() && 
+                        date.getMonth() === this.selectedDate.getMonth() && 
+                        date.getFullYear() === this.selectedDate.getFullYear()) {
+                        dateCell.classList.add('selected-date', 'font-bold');
+                    } else {
+                        dateCell.classList.add('text-gray-800');
+                    }
+                    
+                    // Determine if date should be disabled
+                    let isDisabled = false;
+                    
+                    // Check if date is in the past (disable for check-in)
+                    if (date < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                        isDisabled = true;
+                    }
+                    
+                    // Additional validation logic for check-in and check-out
+                    if (this.otherPicker && this.otherPicker.selectedDate) {
+                        if (this.input.id.includes('checkin')) {
+                            // For check-in: disable dates after selected check-out date
+                            if (date > this.otherPicker.selectedDate) {
+                                isDisabled = true;
+                            }
+                        } else if (this.input.id.includes('checkout')) {
+                            // For check-out: disable dates before selected check-in date
+                            if (date < this.otherPicker.selectedDate) {
+                                isDisabled = true;
+                            }
+                        }
+                    }
+                    
+                    // Apply disabled styling if date should be disabled
+                    if (isDisabled) {
+                        dateCell.classList.add('disabled-date');
+                        dateCell.classList.remove('date-cell', 'cursor-pointer');
+                        dateCell.classList.add('text-gray-400', 'cursor-not-allowed');
+                    }
+                    
+                    dateCell.textContent = day;
+                    dateCell.dataset.date = date.toISOString().split('T')[0];
+                    
+                    // Add click event only if not disabled
+                    if (!isDisabled) {
+                        dateCell.addEventListener('click', () => {
+                            this.selectDate(date);
+                        });
+                    }
+                    
+                    this.datesContainer.appendChild(dateCell);
+                }
+            }
+            
+            changeMonth(delta) {
+                this.currentDate.setMonth(this.currentDate.getMonth() + delta);
+                this.renderCalendar();
+            }
+            
+            selectDate(date) {
+                this.selectedDate = date;
+                
+                // Format date for display
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                this.input.value = date.toLocaleDateString('en-US', options);
+                
+                // If we have an other picker reference, update its calendar to reflect new constraints
+                if (this.otherPicker) {
+                    this.otherPicker.renderCalendar();
+                    
+                    // If this is check-in and check-out is before, clear check-out
+                    if (this.input.id.includes('checkin') && this.otherPicker.selectedDate) {
+                        if (this.otherPicker.selectedDate <= date) {
+                            this.otherPicker.clearSelection();
+                            alert('Check-out date has been cleared because it must be after check-in date.');
+                        }
+                    }
+                    
+                    // If this is check-out and check-in is after, clear check-in
+                    if (this.input.id.includes('checkout') && this.otherPicker.selectedDate) {
+                        if (this.otherPicker.selectedDate >= date) {
+                            this.otherPicker.clearSelection();
+                            alert('Check-in date has been cleared because it must be before check-out date.');
+                        }
+                    }
+                }
+                
+                // Update calendar display
+                this.renderCalendar();
+                
+                // Auto-close calendar after selection
+                setTimeout(() => {
+                    this.calendar.classList.add('hidden');
+                }, 300);
+            }
+            
+            selectToday() {
+                const today = new Date();
+                this.selectDate(today);
+                this.currentDate = new Date(today); // Reset calendar view to today
+            }
+            
+            clearSelection() {
+                this.selectedDate = null;
+                this.input.value = '';
+                this.renderCalendar();
+                
+                // If we have an other picker, update its calendar to remove constraints
+                if (this.otherPicker) {
+                    this.otherPicker.renderCalendar();
+                }
+            }
+        }
+
+        // Initialize date pickers for deals page with cross-references
+        const dealCheckinPicker = new DatePicker('deal-checkin-input', 'deal-checkin-calendar');
+        const dealCheckoutPicker = new DatePicker('deal-checkout-input', 'deal-checkout-calendar');
+
+        // Set up the cross-references AFTER both are created
+        dealCheckinPicker.otherPicker = dealCheckoutPicker;
+        dealCheckoutPicker.otherPicker = dealCheckinPicker;
+    </script>
+</body>
+</html>
