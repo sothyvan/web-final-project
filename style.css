@@ -28,3 +28,9 @@ body {
     color: #ccc;
     cursor: not-allowed;
 }
+input::placeholder {
+    color: #9ca3af;
+}
+input:focus::placeholder {
+    color: #d1d5db;
+}

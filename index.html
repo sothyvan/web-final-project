@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Der Lg Travel Agency</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -27,45 +28,6 @@
             }
         }
     </script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .hero-bg {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
-        }
-        .destination-card {
-            transition: transform 0.3s ease;
-        }
-        .destination-card:hover {
-            transform: translateY(-10px);
-        }
-        .calendar-container {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        .date-cell:hover {
-            background-color: #e6f2ff;
-        }
-        .selected-date {
-            background-color: #0077b6 !important;
-            color: white !important;
-        }
-        .today {
-            border: 2px solid #0077b6;
-        }
-        .disabled-date {
-            color: #ccc;
-            cursor: not-allowed;
-        }
-        /* Fix for date input placeholder color */
-        input::placeholder {
-            color: #9ca3af;
-        }
-        input:focus::placeholder {
-            color: #d1d5db;
-        }
-    </style>
 </head>
 <body class="bg-gray-50 font-inter">
     <!-- Header -->
