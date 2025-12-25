@@ -32,13 +32,13 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         // Remove active class from all buttons
         document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('active', 'border-blue-600', 'bg-blue-600', 'text-white');
+            b.classList.remove('active', 'border-blue-600', 'bg-blue-600', 'hover:text-white');
             b.classList.add('border-gray-300', 'text-gray-700', 'bg-white');
         });
         
         // Add active class to clicked button
         this.classList.remove('border-gray-300', 'text-gray-700', 'bg-white');
-        this.classList.add('active', 'border-blue-600', 'bg-blue-600', 'text-white');
+        this.classList.add('active', 'border-blue-600', 'bg-blue-600', 'hover:text-white');
         
         // In a real app, this would filter the hotels
         console.log('Filtering by: ' + this.textContent.trim());
